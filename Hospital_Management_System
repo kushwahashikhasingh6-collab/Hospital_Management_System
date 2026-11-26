@@ -1,0 +1,367 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+struct Patient {
+    int id;
+    char name[50];
+    int age;
+    char gender[15];
+    char disease[50];
+    char phone[20];
+};
+
+struct Doctor {
+    int id;
+    char name[50];
+    char specialization[50];
+    char phone[20];
+};
+
+struct Patient patients[MAX];
+struct Doctor doctors[MAX];
+
+int patientCount = 0;
+int doctorCount = 0;
+
+// Function to add a patient
+void addPatient() {
+    if (patientCount >= MAX) {
+        printf("\nPatient limit reached!\n");
+        return;
+    }
+
+    struct Patient p;
+
+    printf("\nEnter Patient ID: ");
+    scanf("%d", &p.id);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == p.id) {
+            printf("Patient ID already exists!\n");
+            return;
+        }
+    }
+
+    printf("Enter Patient Name: ");
+    scanf(" %49[^\n]", p.name);
+
+    printf("Enter Age: ");
+    scanf("%d", &p.age);
+
+    printf("Enter Gender: ");
+    scanf(" %14[^\n]", p.gender);
+
+    printf("Enter Disease: ");
+    scanf(" %49[^\n]", p.disease);
+
+    printf("Enter Phone Number: ");
+    scanf(" %19s", p.phone);
+
+    patients[patientCount++] = p;
+
+    printf("\nPatient added successfully!\n");
+}
+
+// Function to display all patients
+void viewPatients() {
+    if (patientCount == 0) {
+        printf("\nNo patient records found!\n");
+        return;
+    }
+
+    printf("\n========== PATIENT RECORDS ==========\n");
+
+    for (int i = 0; i < patientCount; i++) {
+        printf("\nPatient ID : %d", patients[i].id);
+        printf("\nName       : %s", patients[i].name);
+        printf("\nAge        : %d", patients[i].age);
+        printf("\nGender     : %s", patients[i].gender);
+        printf("\nDisease    : %s", patients[i].disease);
+        printf("\nPhone      : %s\n", patients[i].phone);
+    }
+}
+
+// Function to search patient
+void searchPatient() {
+    int id, found = 0;
+
+    printf("\nEnter Patient ID to search: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == id) {
+            printf("\nPatient Found!\n");
+            printf("ID      : %d\n", patients[i].id);
+            printf("Name    : %s\n", patients[i].name);
+            printf("Age     : %d\n", patients[i].age);
+            printf("Gender  : %s\n", patients[i].gender);
+            printf("Disease : %s\n", patients[i].disease);
+            printf("Phone   : %s\n", patients[i].phone);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nPatient not found!\n");
+}
+
+// Function to update patient
+void updatePatient() {
+    int id, found = 0;
+
+    printf("\nEnter Patient ID to update: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == id) {
+            printf("\nEnter New Name: ");
+            scanf(" %49[^\n]", patients[i].name);
+
+            printf("Enter New Age: ");
+            scanf("%d", &patients[i].age);
+
+            printf("Enter New Gender: ");
+            scanf(" %14[^\n]", patients[i].gender);
+
+            printf("Enter New Disease: ");
+            scanf(" %49[^\n]", patients[i].disease);
+
+            printf("Enter New Phone: ");
+            scanf(" %19s", patients[i].phone);
+
+            printf("\nPatient updated successfully!\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nPatient not found!\n");
+}
+
+// Function to delete patient
+void deletePatient() {
+    int id, found = 0;
+
+    printf("\nEnter Patient ID to delete: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == id) {
+            for (int j = i; j < patientCount - 1; j++) {
+                patients[j] = patients[j + 1];
+            }
+
+            patientCount--;
+            found = 1;
+
+            printf("\nPatient deleted successfully!\n");
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nPatient not found!\n");
+}
+
+// Function to add doctor
+void addDoctor() {
+    if (doctorCount >= MAX) {
+        printf("\nDoctor limit reached!\n");
+        return;
+    }
+
+    struct Doctor d;
+
+    printf("\nEnter Doctor ID: ");
+    scanf("%d", &d.id);
+
+    for (int i = 0; i < doctorCount; i++) {
+        if (doctors[i].id == d.id) {
+            printf("Doctor ID already exists!\n");
+            return;
+        }
+    }
+
+    printf("Enter Doctor Name: ");
+    scanf(" %49[^\n]", d.name);
+
+    printf("Enter Specialization: ");
+    scanf(" %49[^\n]", d.specialization);
+
+    printf("Enter Phone Number: ");
+    scanf(" %19s", d.phone);
+
+    doctors[doctorCount++] = d;
+
+    printf("\nDoctor added successfully!\n");
+}
+
+// Function to view doctors
+void viewDoctors() {
+    if (doctorCount == 0) {
+        printf("\nNo doctor records found!\n");
+        return;
+    }
+
+    printf("\n========== DOCTOR RECORDS ==========\n");
+
+    for (int i = 0; i < doctorCount; i++) {
+        printf("\nDoctor ID      : %d", doctors[i].id);
+        printf("\nName           : %s", doctors[i].name);
+        printf("\nSpecialization : %s", doctors[i].specialization);
+        printf("\nPhone          : %s\n", doctors[i].phone);
+    }
+}
+
+// Function to search doctor
+void searchDoctor() {
+    int id, found = 0;
+
+    printf("\nEnter Doctor ID to search: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < doctorCount; i++) {
+        if (doctors[i].id == id) {
+            printf("\nDoctor Found!\n");
+            printf("ID             : %d\n", doctors[i].id);
+            printf("Name           : %s\n", doctors[i].name);
+            printf("Specialization : %s\n", doctors[i].specialization);
+            printf("Phone          : %s\n", doctors[i].phone);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nDoctor not found!\n");
+}
+
+// Function to generate bill
+void generateBill() {
+    int id, found = 0;
+    float consultation, medicine, room, total;
+
+    printf("\nEnter Patient ID: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == id) {
+            printf("\n========== HOSPITAL BILL ==========\n");
+            printf("Patient ID   : %d\n", patients[i].id);
+            printf("Patient Name : %s\n", patients[i].name);
+
+            printf("\nEnter Consultation Fee: ");
+            scanf("%f", &consultation);
+
+            printf("Enter Medicine Charges: ");
+            scanf("%f", &medicine);
+
+            printf("Enter Room Charges: ");
+            scanf("%f", &room);
+
+            total = consultation + medicine + room;
+
+            printf("\n========== FINAL BILL ==========\n");
+            printf("Consultation Fee : Rs. %.2f\n", consultation);
+            printf("Medicine Charges : Rs. %.2f\n", medicine);
+            printf("Room Charges     : Rs. %.2f\n", room);
+            printf("--------------------------------\n");
+            printf("Total Amount     : Rs. %.2f\n", total);
+            printf("================================\n");
+
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("\nPatient not found!\n");
+}
+
+// Main function
+int main() {
+    int choice;
+
+    printf("\n");
+    printf("========================================\n");
+    printf("       HOSPITAL MANAGEMENT SYSTEM       \n");
+    printf("========================================\n");
+
+    do {
+        printf("\n\n========== MAIN MENU ==========\n");
+        printf("1. Add New Patient\n");
+        printf("2. View All Patients\n");
+        printf("3. Search Patient\n");
+        printf("4. Update Patient\n");
+        printf("5. Delete Patient\n");
+        printf("6. Add Doctor\n");
+        printf("7. View All Doctors\n");
+        printf("8. Search Doctor\n");
+        printf("9. Generate Patient Bill\n");
+        printf("10. Exit\n");
+
+        printf("\nEnter Your Choice: ");
+
+        if (scanf("%d", &choice) != 1) {
+            printf("\nInvalid input! Please enter a number.\n");
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                addPatient();
+                break;
+
+            case 2:
+                viewPatients();
+                break;
+
+            case 3:
+                searchPatient();
+                break;
+
+            case 4:
+                updatePatient();
+                break;
+
+            case 5:
+                deletePatient();
+                break;
+
+            case 6:
+                addDoctor();
+                break;
+
+            case 7:
+                viewDoctors();
+                break;
+
+            case 8:
+                searchDoctor();
+                break;
+
+            case 9:
+                generateBill();
+                break;
+
+            case 10:
+                printf("\nThank you for using Hospital Management System!\n");
+                printf("Exiting Program...\n");
+                break;
+
+            default:
+                printf("\nInvalid Choice! Please try again.\n");
+        }
+
+    } while (choice != 10);
+
+    return 0;
+}
